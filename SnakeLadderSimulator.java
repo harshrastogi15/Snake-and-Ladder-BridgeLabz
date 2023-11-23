@@ -19,7 +19,7 @@ class SnakeLadderSimulator{
         // Ladder in the board
         board.set(2, 21);
         board.set(5, 7);
-        board.set(10, 75);
+        board.set(10, 35);
         board.set(12, 38);
 
         // Snake in the board
@@ -48,15 +48,39 @@ class SnakeLadderSimulator{
         return result;
     }
 
+    // UC6 - Game for One player
+    public static void gameStart(){
+        Integer positionOfFirstPlayer = 0;
+        System.out.println( "Initial Postion of First Player " + positionOfFirstPlayer);
+        Integer cnt = 0;
+        while(true){
+            Integer number = rollDice();
+            if(positionOfFirstPlayer+number>100){
+                System.out.println("Move: " + cnt + " Roll: " + number + " Now Position: " + positionOfFirstPlayer +" NO chance");
+            }else if(positionOfFirstPlayer+number==100){
+                positionOfFirstPlayer = 100;
+                System.out.println("Move: " + cnt + " Roll: " + number + " Now Position: " + positionOfFirstPlayer +" END Game");
+                break;
+            }else{
+                ArrayList<Integer> result = option(positionOfFirstPlayer+number);
+                positionOfFirstPlayer = result.get(1);
+                if(result.get(0) == 0 ){
+                    System.out.println("Move: " + cnt + " Roll: " + number + " Now Position: " + positionOfFirstPlayer +" No option");
+                }else if(result.get(0) == 1 ){
+                    System.out.println("Move: " + cnt + " Roll: " + number + " Now Position: " + positionOfFirstPlayer +" Ladder Found");
+                }else{
+                    System.out.println("Move: " + cnt + " Roll: " + number + " Now Position: " + positionOfFirstPlayer +" Snake Found");
+                }
+            }
+            cnt ++ ;
+        }
+
+    }
+
     public static void main(String[] args) {
         System.out.println("Welcome to snake ladder game");
         designBoard();
+        gameStart();
 
-        Integer positionOfFirstPlayer = 99;
-        System.out.println(positionOfFirstPlayer);
-        System.out.println(rollDice());
-
-        ArrayList<Integer> result = option(positionOfFirstPlayer);
-        System.out.println(result);
     }
 }
