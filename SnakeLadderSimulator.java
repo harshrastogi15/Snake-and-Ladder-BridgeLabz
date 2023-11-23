@@ -77,10 +77,57 @@ class SnakeLadderSimulator{
 
     }
 
+    // UC7 - Game for Two player
+    public static void gameStartForTwoPlayer(){
+        Integer positionOfFirstPlayer = 0;
+        Integer positionOfSecondPlayer = 0;
+        System.out.println( "Initial Postion of First Player " + positionOfFirstPlayer);
+        System.out.println( "Initial Postion of Second Player " + positionOfSecondPlayer);
+        Integer nextMove = 0; // 0 -> first player ,1->second player
+        Integer cnt = 0;
+        while(true){
+            Integer number = rollDice();
+            Integer positionOfPlayer = 0;
+            Integer currMove = nextMove;
+            if(nextMove == 1) {
+                positionOfPlayer = positionOfSecondPlayer;
+            }else{
+                positionOfPlayer = positionOfFirstPlayer;
+            }
+            if(positionOfPlayer+number>100){
+                nextMove = (nextMove+1)%2;
+                System.out.println("Player " + currMove +" Move: " + cnt + " Roll: " + number + " Now Position: " + positionOfPlayer +" NO chance");
+            }else if(positionOfPlayer+number==100){
+                positionOfPlayer = 100;
+                System.out.println("Player " + currMove +" Move: " + cnt + " Roll: " + number + " Now Position: " + positionOfPlayer +" END Game");
+                break;
+            }else{
+                ArrayList<Integer> result = option(positionOfPlayer+number);
+                positionOfPlayer = result.get(1);
+                if(result.get(0) == 0 ){
+                    nextMove = (nextMove+1)%2;
+                    System.out.println("Player " + currMove +" Move: " + cnt + " Roll: " + number + " Now Position: " + positionOfPlayer +" No option");
+                }else if(result.get(0) == 1 ){
+                    System.out.println("Player " + currMove +" Move: " + cnt + " Roll: " + number + " Now Position: " + positionOfPlayer +" Ladder Found");
+                }else{
+                    nextMove = (nextMove+1)%2;
+                    System.out.println("Player " + currMove +" Move: " + cnt + " Roll: " + number + " Now Position: " + positionOfPlayer +" Snake Found");
+                }
+            }
+            if(currMove == 1){
+                positionOfSecondPlayer = positionOfPlayer;
+            }else{
+                positionOfFirstPlayer = positionOfPlayer;
+            }
+            cnt ++ ;
+        }
+
+    }
+
     public static void main(String[] args) {
         System.out.println("Welcome to snake ladder game");
         designBoard();
-        gameStart();
+        gameStartForTwoPlayer();
 
     }
 }
